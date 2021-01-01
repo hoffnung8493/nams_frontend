@@ -20,11 +20,18 @@ import Button from "@material-ui/core/Button";
 import { useQuery } from "@apollo/client";
 import { client } from "../apollo";
 import { ME } from "../graphql/query";
+import HomeIcon from "@material-ui/icons/Home";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    flexGrow: 1,
+  },
+  title: {
+    flexGrow: 1,
+    fontSize: "18px",
+    fontWeight: 700,
   },
   appBar: {
     transition: theme.transitions.create(["margin", "width"], {
@@ -104,13 +111,8 @@ export default function PersistentDrawerLeft({ children }) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar className={classes.toolbar}>
+      <AppBar position="static" className={clsx(classes.appBar)}>
+        <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -120,9 +122,7 @@ export default function PersistentDrawerLeft({ children }) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            사람멀미 처방전 - 직장인의 마음(心), 귀(耳), 입(口) 사용법
-          </Typography>
+          <Typography className={classes.title}>사람멀미 처방전</Typography>
           {data && data.me ? (
             <Button
               style={{ color: "white", borderColor: "white" }}
@@ -133,19 +133,10 @@ export default function PersistentDrawerLeft({ children }) {
                 client.cache.reset();
               }}
             >
-              {data?.me?.nickname} - 로그아웃
+              {data?.me?.nickname}
             </Button>
           ) : (
             <>
-              <Link to="/signup">
-                <Button
-                  style={{ color: "white", borderColor: "white" }}
-                  variant="outlined"
-                  className={classes.link}
-                >
-                  회원가입
-                </Button>
-              </Link>
               <Link to="/signin">
                 <Button
                   style={{ color: "white", borderColor: "white" }}
@@ -157,6 +148,9 @@ export default function PersistentDrawerLeft({ children }) {
               </Link>
             </>
           )}
+          <Link to="/">
+            <HomeIcon style={{ color: "white" }} />
+          </Link>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -183,7 +177,7 @@ export default function PersistentDrawerLeft({ children }) {
         >
           {books[0].short}
         </h3>
-        <List>
+        <List onClick={handleDrawerClose}>
           {books[0].chapters.map(({ short, id }) => (
             <Link
               to={`/books/1/chapters/${id}`}
@@ -247,11 +241,7 @@ export default function PersistentDrawerLeft({ children }) {
           </Link>
         </h3>
       </Drawer>
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: open,
-        })}
-      >
+      <main>
         <div className={classes.drawerHeader} />
         {children}
       </main>

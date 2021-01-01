@@ -8,8 +8,8 @@ import { REVIEW_CREATE, reviewFragment } from "../graphql/query";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
-      margin: theme.spacing(1),
-      width: "90ch",
+      marginBottom: theme.spacing(1),
+      width: "100%",
     },
   },
 }));
@@ -31,6 +31,9 @@ export default function MultilineTextFields({ bookNumber, chapterNumber }) {
           },
         },
       });
+    },
+    onError: (err) => {
+      console.warn(err);
     },
   });
 
@@ -57,14 +60,21 @@ export default function MultilineTextFields({ bookNumber, chapterNumber }) {
           onChange={(e) => setContent(e.target.value)}
         />
       </div>
+      {content.length < 10 && (
+        <span style={{ color: "grey" }}>
+          {10 - content.length}자 이상 입력헤주세요
+        </span>
+      )}
       <Button
         type="submit"
         variant="contained"
-        style={{ marginLeft: 10, backgroundColor: "#3C79E1", color: "white" }}
+        disabled={content.length < 10}
+        color="primary"
+        fullWidth
       >
         제출하기
       </Button>
-      {error && <h2>오류가 발생했습니다..</h2>}
+      {error && <p>오류가 발생했습니다.. {error.message}</p>}
       {loading && <h2>후기 생성중</h2>}
     </form>
   );

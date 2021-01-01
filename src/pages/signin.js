@@ -14,7 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useMutation } from "@apollo/client";
 import { useHistory } from "react-router";
-import { LOG_IN, ME } from "../graphql/query";
+import { LOG_IN, ME, SIGN_UP } from "../graphql/query";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,29 +38,59 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [nickname, setNickname] = useState("");
   const history = useHistory();
 
-  const [login, { loading, error }] = useMutation(LOG_IN, {
-    variables: { email, password },
-    onCompleted: ({ login }) => {
-      localStorage.setItem("accessToken", login.accessToken);
-      localStorage.setItem("refreshToken", login.refreshToken);
-      setEmail("");
-      setPassword("");
-      history.goBack();
-    },
-    onError: (err) => console.error(err),
-    update: (store, { data }) => {
-      store.writeQuery({
-        query: ME,
-        data: {
-          me: data.login.user,
-        },
-      });
-    },
-  });
+  const [login, { loading: loginLoading, error: loginError }] = useMutation(
+    LOG_IN,
+    {
+      variables: { email, password },
+      onCompleted: ({ login }) => {
+        localStorage.setItem("accessToken", login.accessToken);
+        localStorage.setItem("refreshToken", login.refreshToken);
+        history.goBack();
+        setNickname("");
+        setEmail("");
+        setPassword("");
+      },
+      onError: (err) => console.error(err),
+      update: (store, { data }) => {
+        store.writeQuery({
+          query: ME,
+          data: {
+            me: data.login.user,
+          },
+        });
+      },
+    }
+  );
+
+  const [signup, { loading: signupLoading, error: signupError }] = useMutation(
+    SIGN_UP,
+    {
+      variables: { nickname, email, password },
+      onCompleted: ({ signup }) => {
+        localStorage.setItem("accessToken", signup.accessToken);
+        localStorage.setItem("refreshToken", signup.refreshToken);
+        history.goBack();
+        setNickname("");
+        setEmail("");
+        setPassword("");
+      },
+      onError: (err) => console.error(err),
+      update: (store, { data }) => {
+        store.writeQuery({
+          query: ME,
+          data: {
+            me: data.signup.user,
+          },
+        });
+      },
+    }
+  );
 
   return (
     <Container component="main" maxWidth="xs">
@@ -70,14 +100,14 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          {isLogin ? "로그인" : "회원가입"}
         </Typography>
         <form
           className={classes.form}
           noValidate
           onSubmit={(e) => {
             e.preventDefault();
-            login();
+            isLogin ? login() : signup();
           }}
         >
           <TextField
@@ -86,26 +116,43 @@ export default function SignIn() {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="이메일 주소"
             name="email"
             autoComplete="email"
             autoFocus
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
             name="password"
-            label="Password"
+            label="비밀번호"
             type="password"
             id="password"
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+
+          {!isLogin && (
+            <TextField
+              variant="outlined"
+              margin="normal"
+              autoComplete="fname"
+              name="firstName"
+              required
+              fullWidth
+              id="firstName"
+              label="닉네임"
+              autoFocus
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+            />
+          )}
           {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
@@ -117,10 +164,16 @@ export default function SignIn() {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            {isLogin ? "로그인" : "회원가입"}
           </Button>
-          {loading && <p>Loading...</p>}
-          <p>{error && `${error}`}</p>
+          {(loginLoading || signupLoading) && <p>Loading...</p>}
+          <p>{(loginError || signupError) && `${loginError || signupError}`}</p>
+          <p
+            style={{ textDecoration: "underline" }}
+            onClick={() => setIsLogin(!isLogin)}
+          >
+            {isLogin ? "회원 가입하기" : "로그인하기"}
+          </p>
           {/* <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
