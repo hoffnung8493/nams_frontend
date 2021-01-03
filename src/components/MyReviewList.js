@@ -21,7 +21,6 @@ const ReviewList = () => {
     if (sortBy === BY_CHAPTER) setSortBy(BY_UPDATED_AT);
     else setSortBy(BY_CHAPTER);
   };
-
   const renderedPosts = data.myReviews
     .slice()
     .sort((a, b) => {

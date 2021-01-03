@@ -74,6 +74,11 @@ export default function RecipeReviewCard({
                 (reviewRef) => reviewId !== readField("id", reviewRef)
               );
             },
+            myReviews(existingReviews = [], { readField }) {
+              return existingReviews.filter(
+                (reviewRef) => reviewId !== readField("id", reviewRef)
+              );
+            },
           },
         });
       },
@@ -122,6 +127,8 @@ export default function RecipeReviewCard({
           {oldContent}
         </Typography>
       </CardContent>
+      {errorDelete && <h4>삭제 실패..{errorDelete.message}</h4>}
+      {loadingDelete && "삭제중.."}
       {/* <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon /> {likes}
