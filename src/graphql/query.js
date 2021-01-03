@@ -3,6 +3,7 @@ import { gql } from "@apollo/client";
 export const ME = gql`
   query {
     me {
+      id
       nickname
       email
     }
@@ -46,6 +47,7 @@ export const reviewFragment = gql`
       nickname
     }
     commentCount
+    updatedAt
   }
 `;
 
@@ -65,6 +67,30 @@ export const REVIEW_CREATE = gql`
       chapterNumber: $chapterNumber
       bookNumber: $bookNumber
     ) {
+      ...reviewFragment
+    }
+  }
+  ${reviewFragment}
+`;
+
+export const REVIEW_UPDATE = gql`
+  mutation($reviewId: String!, $content: String!) {
+    reviewUpdate(reviewId: $reviewId, content: $content) {
+      ...reviewFragment
+    }
+  }
+  ${reviewFragment}
+`;
+
+export const REVIEW_DELETE = gql`
+  mutation($reviewId: String!) {
+    reviewDelete(reviewId: $reviewId)
+  }
+`;
+
+export const MY_REVIEWS = gql`
+  query {
+    myReviews {
       ...reviewFragment
     }
   }

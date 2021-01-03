@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { useMutation } from "@apollo/client";
-import { REVIEW_CREATE, reviewFragment } from "../graphql/query";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,29 +12,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MultilineTextFields({ bookNumber, chapterNumber }) {
+export default function MultilineTextFields({
+  content,
+  setContent,
+  mutationHook,
+  isUpdate = false,
+  updateCancel,
+}) {
   const classes = useStyles();
-  const [content, setContent] = useState("");
-  const [reviewCreate, { loading, error }] = useMutation(REVIEW_CREATE, {
-    variables: { chapterNumber, bookNumber, content },
-    update: (cache, { data: { reviewCreate } }) => {
-      cache.modify({
-        fields: {
-          reviews(existingReviews = []) {
-            const newReview = cache.writeFragment({
-              data: reviewCreate,
-              fragment: reviewFragment,
-            });
-            return [...existingReviews, newReview];
-          },
-        },
-      });
-    },
-    onError: (err) => {
-      console.warn(err);
-    },
-  });
-
+  const [reviewMutate, { loading, error }] = mutationHook;
   return (
     <form
       className={classes.root}
@@ -44,7 +28,7 @@ export default function MultilineTextFields({ bookNumber, chapterNumber }) {
       autoComplete="off"
       onSubmit={(e) => {
         e.preventDefault();
-        reviewCreate();
+        reviewMutate();
         setContent("");
       }}
     >
@@ -72,8 +56,19 @@ export default function MultilineTextFields({ bookNumber, chapterNumber }) {
         color="primary"
         fullWidth
       >
-        제출하기
+        {isUpdate ? "수정하기" : "제출하기"}
       </Button>
+      {isUpdate && (
+        <Button
+          style={{ marginTop: "7px" }}
+          variant="contained"
+          color="secondary"
+          fullWidth
+          onClick={updateCancel}
+        >
+          수정 취소
+        </Button>
+      )}
       {error && <p>오류가 발생했습니다.. {error.message}</p>}
       {loading && <h2>후기 생성중</h2>}
     </form>

@@ -1,5 +1,5 @@
 import React from "react";
-import Review from "./Review";
+import Review from "./Review/index";
 import { REVIEWS } from "../graphql/query";
 import { useQuery } from "@apollo/client";
 const ReviewList = ({ bookNumber, chapterNumber }) => {
@@ -13,11 +13,12 @@ const ReviewList = ({ bookNumber, chapterNumber }) => {
     return <h2>앗! 오류가 발생했습니다...</h2>;
   }
 
-  const renderedPosts = data.reviews.map((review) => (
-    <Review review={review} key={review.id} />
-  ));
+  const renderedPosts = data.reviews
+    .slice()
+    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+    .map((review) => <Review review={review} key={review.id} />);
 
-  return <>{renderedPosts}</>;
+  return <div style={{ marginTop: "30px" }}>{renderedPosts}</div>;
 };
 
 export default ReviewList;

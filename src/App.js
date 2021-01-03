@@ -4,6 +4,7 @@ import Chapter from "./pages/chapter";
 import Review from "./pages/review";
 import Signin from "./pages/signin";
 import Home from "./pages/home";
+import MyReviews from "./pages/myreviews";
 
 import { Route, Switch } from "react-router-dom";
 
@@ -19,6 +20,7 @@ const App = () => {
           />
           <Route path="/review" component={Review} />
           <Route path="/signin" component={Signin} />
+          <Route path="/mypage/reviews" component={MyReviews} />
         </Switch>
       </MenuAppBar>
     </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import Review from "../components/Review";
+import Review from "../components/Review/index";
 import ReviewForm from "../components/reviewForm";
 import { sampleReviews } from "../data";
 import { Container } from "@material-ui/core";

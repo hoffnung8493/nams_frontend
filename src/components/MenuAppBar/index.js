@@ -15,12 +15,13 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { Link } from "react-router-dom";
-import { books } from "../data";
+import { books } from "../../data";
 import Button from "@material-ui/core/Button";
 import { useQuery } from "@apollo/client";
-import { client } from "../apollo";
-import { ME } from "../graphql/query";
+import { client } from "../../apollo";
+import { ME } from "../../graphql/query";
 import HomeIcon from "@material-ui/icons/Home";
+import UserMenu from "./UserMenu";
 
 const drawerWidth = 240;
 
@@ -124,17 +125,7 @@ export default function PersistentDrawerLeft({ children }) {
           </IconButton>
           <Typography className={classes.title}>사람멀미 처방전</Typography>
           {data && data.me ? (
-            <Button
-              style={{ color: "white", borderColor: "white" }}
-              variant="outlined"
-              className={classes.link}
-              onClick={() => {
-                localStorage.clear();
-                client.cache.reset();
-              }}
-            >
-              {data?.me?.nickname}
-            </Button>
+            <UserMenu me={data.me} client={client} />
           ) : (
             <>
               <Link to="/signin">
@@ -196,7 +187,7 @@ export default function PersistentDrawerLeft({ children }) {
         >
           {books[1].short}
         </h3>
-        <List>
+        <List onClick={handleDrawerClose}>
           {books[1].chapters.map(({ short, id }) => (
             <Link
               to={`/books/2/chapters/${id}`}
@@ -215,7 +206,7 @@ export default function PersistentDrawerLeft({ children }) {
         >
           {books[2].short}
         </h3>
-        <List>
+        <List onClick={handleDrawerClose}>
           {books[2].chapters.map(({ short, id }) => (
             <Link
               to={`/books/3/chapters/${id}`}
