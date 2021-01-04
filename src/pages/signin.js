@@ -53,7 +53,7 @@ export default function SignIn() {
         localStorage.setItem("accessToken", login.accessToken);
         localStorage.setItem("refreshToken", login.refreshToken);
         Cookie.set("accessToken", login.accessToken, {
-          domain: "graphql.nam21.com",
+          domain: ".nam21.com",
         });
         history.goBack();
         setNickname("");
