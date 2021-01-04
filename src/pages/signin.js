@@ -15,6 +15,7 @@ import Container from "@material-ui/core/Container";
 import { useMutation } from "@apollo/client";
 import { useHistory } from "react-router";
 import { LOG_IN, ME, SIGN_UP } from "../graphql/query";
+import Cookie from "js-cookie";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -51,6 +52,9 @@ export default function SignIn() {
       onCompleted: ({ login }) => {
         localStorage.setItem("accessToken", login.accessToken);
         localStorage.setItem("refreshToken", login.refreshToken);
+        Cookie.set("accessToken", login.accessToken, {
+          domain: "graphql.nam21.com",
+        });
         history.goBack();
         setNickname("");
         setEmail("");
@@ -75,6 +79,7 @@ export default function SignIn() {
       onCompleted: ({ signup }) => {
         localStorage.setItem("accessToken", signup.accessToken);
         localStorage.setItem("refreshToken", signup.refreshToken);
+
         history.goBack();
         setNickname("");
         setEmail("");
