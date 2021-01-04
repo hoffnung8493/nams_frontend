@@ -52,9 +52,7 @@ export default function SignIn() {
       onCompleted: ({ login }) => {
         localStorage.setItem("accessToken", login.accessToken);
         localStorage.setItem("refreshToken", login.refreshToken);
-        Cookie.set("accessToken", login.accessToken, {
-          domain: ".nam21.com",
-        });
+        Cookie.set("accessToken", login.accessToken);
         history.goBack();
         setNickname("");
         setEmail("");
