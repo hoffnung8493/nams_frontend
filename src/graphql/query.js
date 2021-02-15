@@ -43,7 +43,7 @@ export const reviewFragment = gql`
     chapterNumber
     content
     user {
-      id
+      userId
       nickname
     }
     commentCount
