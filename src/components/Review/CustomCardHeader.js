@@ -12,7 +12,7 @@ const CustomCardHeader = ({
   deleteHook,
 }) => {
   const classes = useStyles();
-  const [mutate, { loading, error }] = deleteHook;
+  const [mutate] = deleteHook;
   return (
     <CardHeader
       avatar={
