@@ -1,10 +1,10 @@
 import { Container } from "@material-ui/core";
 import React, { useState } from "react";
-import ReviewForm from "../components/reviewForm";
+import CustomForm from "../components/CustomForm";
 import { books } from "../data";
 import ReviewList from "../components/ReviewList";
 import { useQuery, useMutation } from "@apollo/client";
-import { ME, REVIEW_CREATE, reviewFragment } from "../graphql/query";
+import { ME, REVIEW_CREATE, REVIEW_FRAGMENT } from "../graphql";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 
@@ -29,26 +29,28 @@ const Chapter = ({
           reviews(existingReviews = []) {
             const newReview = cache.writeFragment({
               data: reviewCreate,
-              fragment: reviewFragment,
+              fragment: REVIEW_FRAGMENT,
             });
             return [...existingReviews, newReview];
           },
         },
       });
+      setContent("");
     },
     onError: (err) => {
       console.warn(err);
     },
   });
   return (
-    <Container>
+    <Container style={{ maxWidth: 590 }}>
       <h1>{book.name}</h1>
       <h2 style={{ marginBottom: "35px" }}>{chapter.name}</h2>
       {data?.me ? (
-        <ReviewForm
-          mutationHook={mutationHook}
+        <CustomForm
           content={content}
           setContent={setContent}
+          mutationHook={mutationHook}
+          rows={4}
         />
       ) : (
         <Link to="/signin" style={{ textDecoration: "none" }}>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Review from "./Review/index";
-import { MY_REVIEWS } from "../graphql/query";
+import { MY_REVIEWS } from "../graphql";
 import { useQuery } from "@apollo/client";
 import { books } from "../data";
 import { Button } from "@material-ui/core";

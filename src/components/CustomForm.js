@@ -18,9 +18,11 @@ export default function MultilineTextFields({
   mutationHook,
   isUpdate = false,
   updateCancel,
+  minContentLength = 10,
+  rows = 1,
 }) {
   const classes = useStyles();
-  const [reviewMutate, { loading, error }] = mutationHook;
+  const [mutate, { loading, error }] = mutationHook;
   return (
     <form
       className={classes.root}
@@ -28,8 +30,7 @@ export default function MultilineTextFields({
       autoComplete="off"
       onSubmit={(e) => {
         e.preventDefault();
-        reviewMutate();
-        setContent("");
+        mutate();
       }}
     >
       <div>
@@ -37,22 +38,22 @@ export default function MultilineTextFields({
           id="outlined-multiline-static"
           label="본문"
           multiline
-          rows={4}
+          rows={rows}
           placeholder="본문을 입력해주세요"
           variant="outlined"
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
       </div>
-      {content.length < 10 && (
+      {content.length < minContentLength && (
         <span style={{ color: "grey" }}>
-          {10 - content.length}자 이상 입력헤주세요
+          {minContentLength - content.length}자 이상 입력헤주세요
         </span>
       )}
       <Button
         type="submit"
         variant="contained"
-        disabled={content.length < 10}
+        disabled={content.length < minContentLength}
         color="primary"
         fullWidth
       >

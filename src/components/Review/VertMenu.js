@@ -4,9 +4,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import { useQuery } from "@apollo/client";
-import { ME } from "../../graphql/query";
+import { ME } from "../../graphql";
 
-const VertMenu = ({ userId, isUpdate, reviewDelete }) => {
+const VertMenu = ({ userId, isUpdate, deleteMutate }) => {
   const { data } = useQuery(ME, {
     onError: (err) => console.error({ err }),
   });
@@ -42,7 +42,7 @@ const VertMenu = ({ userId, isUpdate, reviewDelete }) => {
           style={{ color: "red" }}
           onClick={() => {
             handleClose();
-            reviewDelete();
+            deleteMutate();
           }}
         >
           삭제

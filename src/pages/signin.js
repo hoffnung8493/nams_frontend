@@ -14,7 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useMutation } from "@apollo/client";
 import { useHistory } from "react-router";
-import { LOG_IN, ME, SIGN_UP } from "../graphql/query";
+import { LOG_IN, ME, SIGN_UP } from "../graphql";
 import Cookie from "js-cookie";
 
 const useStyles = makeStyles((theme) => ({

@@ -19,7 +19,7 @@ import { books } from "../../data";
 import Button from "@material-ui/core/Button";
 import { useQuery } from "@apollo/client";
 import { client } from "../../apollo";
-import { ME } from "../../graphql/query";
+import { ME } from "../../graphql";
 import HomeIcon from "@material-ui/icons/Home";
 import UserMenu from "./UserMenu";
 

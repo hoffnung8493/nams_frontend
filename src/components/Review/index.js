@@ -1,25 +1,34 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-// import CardActions from "@material-ui/core/CardActions";
-import Avatar from "@material-ui/core/Avatar";
-// import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import { red } from "@material-ui/core/colors";
-// import FavoriteIcon from "@material-ui/icons/Favorite";
-// import CommentIcon from "@material-ui/icons/Comment";
-import VertMenu from "./VertMenu";
-import { useMutation } from "@apollo/client";
-import { REVIEW_UPDATE, REVIEW_DELETE } from "../../graphql/query";
-import ReviewForm from "../reviewForm";
+import {
+  Card,
+  CardContent,
+  CardActions,
+  IconButton,
+  Typography,
+} from "@material-ui/core";
+import CommentIcon from "@material-ui/icons/Comment";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  REVIEW_UPDATE,
+  REVIEW_DELETE,
+  COMMENT_CREATE,
+  REVIEWS,
+  REVIEW_LIKE,
+  REVIEW_LIKE_CANCEL,
+  ME,
+} from "../../graphql";
+import CustomForm from "../CustomForm";
 import { books } from "../../data";
+import Comment from "./Comment";
+import CustomCardHeader from "./CustomCardHeader";
+import produce from "immer";
+import LikeCount from "./LikeCount";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    marginBottom: 50,
+    marginBottom: 5,
   },
   media: {
     height: 0,
@@ -35,108 +44,156 @@ const useStyles = makeStyles((theme) => ({
   expandOpen: {
     transform: "rotate(180deg)",
   },
-  avatar: {
-    backgroundColor: red[500],
-  },
 }));
 
-export default function RecipeReviewCard({
+const Review = ({
   review: {
     id: reviewId,
-    content: oldContent,
-    commentCount,
-    likes,
-    updatedAt,
     bookNumber,
     chapterNumber,
-    user: { nickname, id: userId },
+    content: oldContent,
+    user: { nickname, userId },
+    commentCount,
+    likeCount,
+    likes,
+    comments,
+    updatedAt,
   },
-}) {
+}) => {
   const chapter = books
     .find((v) => v.id === bookNumber)
     .chapters.find((v) => v.id === chapterNumber);
   const classes = useStyles();
   const [content, setContent] = useState(oldContent);
   const [isUpdate, setIsUpdate] = useState(false);
+  const [showComments, setShowComments] = useState(false);
+  const onShowCommentsClick = () => setShowComments(!showComments);
+
   const updateHook = useMutation(REVIEW_UPDATE, {
     variables: { reviewId, content },
     onCompleted: () => setIsUpdate(false),
   });
-  const [reviewDelete, { errorDelete, loadingDelete }] = useMutation(
-    REVIEW_DELETE,
-    {
-      variables: { reviewId },
-      update: (cache) => {
-        cache.modify({
-          fields: {
-            reviews(existingReviews = [], { readField }) {
-              return existingReviews.filter(
-                (reviewRef) => reviewId !== readField("id", reviewRef)
-              );
-            },
-            myReviews(existingReviews = [], { readField }) {
-              return existingReviews.filter(
-                (reviewRef) => reviewId !== readField("id", reviewRef)
-              );
-            },
+  const deleteHook = useMutation(REVIEW_DELETE, {
+    variables: { reviewId },
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          reviews(existingReviews = [], { readField }) {
+            return existingReviews.filter(
+              (reviewRef) => reviewId !== readField("id", reviewRef)
+            );
           },
-        });
-      },
-    }
-  );
+          myReviews(existingReviews = [], { readField }) {
+            return existingReviews.filter(
+              (reviewRef) => reviewId !== readField("id", reviewRef)
+            );
+          },
+        },
+      });
+    },
+  });
+
+  const [commentContent, setCommentContent] = useState("");
+  const createCommentHook = useMutation(COMMENT_CREATE, {
+    variables: { reviewId, content: commentContent },
+    update: (cache, { data: { commentCreate } }) => {
+      const state1 = cache.readQuery({
+        query: REVIEWS,
+        variables: { bookNumber, chapterNumber },
+      });
+      cache.writeQuery({
+        query: REVIEWS,
+        variables: { bookNumber, chapterNumber },
+        data: produce(state1, (draftState) => {
+          let review = draftState.reviews.find((v) => v.id === reviewId);
+          if (review) {
+            review.comments.push(commentCreate);
+            review.commentCount++;
+          }
+        }),
+      });
+      setCommentContent("");
+    },
+  });
+  const [mutateLike] = useMutation(REVIEW_LIKE, { variables: { reviewId } });
+  const [mutateLikeCancel] = useMutation(REVIEW_LIKE_CANCEL, {
+    variables: { reviewId },
+  });
+  const { data } = useQuery(ME);
+  const onLikeClick = () => {
+    if (!data?.me) return;
+    if (likes.includes(data.me.id)) mutateLikeCancel();
+    else mutateLike();
+  };
 
   if (isUpdate)
     return (
       <div style={{ marginBottom: "30px" }}>
         <h4>{`${bookNumber} - ${chapterNumber} ${chapter.name}`}</h4>
-        <ReviewForm
+        <CustomForm
           content={content}
           setContent={setContent}
           mutationHook={updateHook}
           isUpdate={true}
           updateCancel={() => setIsUpdate(false)}
+          rows={4}
         />
       </div>
     );
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            {nickname[0]}
-          </Avatar>
-        }
-        action={
-          <VertMenu
-            userId={userId}
-            isUpdate={setIsUpdate}
-            reviewDelete={reviewDelete}
+    <div style={{ marginBottom: "50px" }}>
+      <Card className={classes.root}>
+        <CustomCardHeader
+          userId={userId}
+          nickname={nickname}
+          updatedAt={updatedAt}
+          setIsUpdate={setIsUpdate}
+          deleteHook={deleteHook}
+        />
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {oldContent}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <LikeCount
+            likeCount={likeCount}
+            onLikeClick={onLikeClick}
+            color={likes.includes(data?.me.id) ? "secondary" : ""}
           />
-        }
-        title={nickname}
-        subheader={new Date(updatedAt).toLocaleDateString("ko", {
-          year: "numeric",
-          month: "numeric",
-          day: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-        })}
-      />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {oldContent}
-        </Typography>
-      </CardContent>
-      {errorDelete && <h4>삭제 실패..{errorDelete.message}</h4>}
-      {loadingDelete && "삭제중.."}
-      {/* <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon /> {likes}
-        </IconButton>
-        <IconButton aria-label="share">
-          <CommentIcon /> {commentCount}
-        </IconButton>
-      </CardActions> */}
-    </Card>
+
+          <IconButton
+            aria-label="share"
+            style={{ fontSize: 20 }}
+            onClick={onShowCommentsClick}
+            color={showComments ? "primary" : "default"}
+          >
+            <CommentIcon style={{ fontSize: 20, marginRight: 3 }} />
+            {commentCount}
+          </IconButton>
+        </CardActions>
+        {showComments && (
+          <div style={{ marginLeft: 20, marginRight: 20, marginBottom: 20 }}>
+            {comments.map((v) => (
+              <Comment
+                key={v.id}
+                reviewId={reviewId}
+                comment={v}
+                bookNumber={bookNumber}
+                chapterNumber={chapterNumber}
+              />
+            ))}
+            <CustomForm
+              content={commentContent}
+              setContent={setCommentContent}
+              mutationHook={createCommentHook}
+              minContentLength={5}
+            />
+          </div>
+        )}
+      </Card>
+    </div>
   );
-}
+};
+
+export default Review;

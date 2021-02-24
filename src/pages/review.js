@@ -1,6 +1,6 @@
 import React from "react";
 import Review from "../components/Review/index";
-import ReviewForm from "../components/reviewForm";
+// import CustomForm from "../components/CustomForm";
 import { sampleReviews } from "../data";
 import { Container } from "@material-ui/core";
 
@@ -17,7 +17,7 @@ const ReviewPage = (a, b, c, d) => {
     <Container>
       <h1>사람멀미 처방전</h1>
       <h2>전체후기</h2>
-      <ReviewForm />
+      {/* <CustomForm rows={4} /> */}
       {renderedPosts}
     </Container>
   );

@@ -1,43 +1,8 @@
 import { gql } from "@apollo/client";
+import { COMMENT_FRAGMENT } from "./index";
 
-export const ME = gql`
-  query {
-    me {
-      id
-      nickname
-      email
-    }
-  }
-`;
-
-export const LOG_IN = gql`
-  mutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      accessToken
-      refreshToken
-      user {
-        nickname
-        email
-      }
-    }
-  }
-`;
-
-export const SIGN_UP = gql`
-  mutation($email: String!, $password: String!, $nickname: String!) {
-    signup(email: $email, password: $password, nickname: $nickname) {
-      accessToken
-      refreshToken
-      user {
-        nickname
-        email
-      }
-    }
-  }
-`;
-
-export const reviewFragment = gql`
-  fragment reviewFragment on Review {
+export const REVIEW_FRAGMENT = gql`
+  fragment REVIEW_FRAGMENT on Review {
     id
     bookNumber
     chapterNumber
@@ -45,8 +10,11 @@ export const reviewFragment = gql`
     user {
       userId
       nickname
+      isAdmin
     }
     commentCount
+    likeCount
+    likes
     updatedAt
   }
 `;
@@ -54,10 +22,14 @@ export const reviewFragment = gql`
 export const REVIEWS = gql`
   query($bookNumber: Float!, $chapterNumber: Float!) {
     reviews(bookNumber: $bookNumber, chapterNumber: $chapterNumber) {
-      ...reviewFragment
+      ...REVIEW_FRAGMENT
+      comments {
+        ...COMMENT_FRAGMENT
+      }
     }
   }
-  ${reviewFragment}
+  ${REVIEW_FRAGMENT}
+  ${COMMENT_FRAGMENT}
 `;
 
 export const REVIEW_CREATE = gql`
@@ -67,19 +39,19 @@ export const REVIEW_CREATE = gql`
       chapterNumber: $chapterNumber
       bookNumber: $bookNumber
     ) {
-      ...reviewFragment
+      ...REVIEW_FRAGMENT
     }
   }
-  ${reviewFragment}
+  ${REVIEW_FRAGMENT}
 `;
 
 export const REVIEW_UPDATE = gql`
   mutation($reviewId: String!, $content: String!) {
     reviewUpdate(reviewId: $reviewId, content: $content) {
-      ...reviewFragment
+      ...REVIEW_FRAGMENT
     }
   }
-  ${reviewFragment}
+  ${REVIEW_FRAGMENT}
 `;
 
 export const REVIEW_DELETE = gql`
@@ -91,8 +63,26 @@ export const REVIEW_DELETE = gql`
 export const MY_REVIEWS = gql`
   query {
     myReviews {
-      ...reviewFragment
+      ...REVIEW_FRAGMENT
     }
   }
-  ${reviewFragment}
+  ${REVIEW_FRAGMENT}
+`;
+
+export const REVIEW_LIKE = gql`
+  mutation($reviewId: String!) {
+    reviewLike(id: $reviewId) {
+      ...REVIEW_FRAGMENT
+    }
+  }
+  ${REVIEW_FRAGMENT}
+`;
+
+export const REVIEW_LIKE_CANCEL = gql`
+  mutation($reviewId: String!) {
+    reviewLikeCancel(id: $reviewId) {
+      ...REVIEW_FRAGMENT
+    }
+  }
+  ${REVIEW_FRAGMENT}
 `;

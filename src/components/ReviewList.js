@@ -1,6 +1,6 @@
 import React from "react";
 import Review from "./Review/index";
-import { REVIEWS } from "../graphql/query";
+import { REVIEWS } from "../graphql";
 import { useQuery } from "@apollo/client";
 const ReviewList = ({ bookNumber, chapterNumber }) => {
   const { loading, error, data } = useQuery(REVIEWS, {
