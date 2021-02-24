@@ -151,7 +151,7 @@ const Review = ({
           deleteHook={deleteHook}
         />
         <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body2" component="p">
             {oldContent}
           </Typography>
         </CardContent>
@@ -159,7 +159,7 @@ const Review = ({
           <LikeCount
             likeCount={likeCount}
             onLikeClick={onLikeClick}
-            color={likes.includes(data?.me.id) ? "secondary" : ""}
+            color={likes.includes(data?.me?.id) ? "secondary" : "default"}
           />
 
           <IconButton
