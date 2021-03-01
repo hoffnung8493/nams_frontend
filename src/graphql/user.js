@@ -12,6 +12,8 @@ export const ME = gql`
   query {
     me {
       ...USER_FRAGMENT
+      myScore
+      averageScore
     }
   }
   ${USER_FRAGMENT}
@@ -41,4 +43,19 @@ export const SIGN_UP = gql`
     }
   }
   ${USER_FRAGMENT}
+`;
+
+export const DO_MY_FORM = gql`
+  mutation($formResult: [Int!]!) {
+    doMyForm(formResult: $formResult) {
+      id
+      myScore
+    }
+  }
+`;
+
+export const DO_PEER_FORM = gql`
+  mutation($peerId: String!, $formResult: [Int!]!) {
+    doPeerForm(peerId: $peerId, formResult: $formResult)
+  }
 `;

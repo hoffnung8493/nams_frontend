@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -15,7 +15,7 @@ import Container from "@material-ui/core/Container";
 import { useMutation } from "@apollo/client";
 import { useHistory } from "react-router";
 import { LOG_IN, ME, SIGN_UP } from "../graphql";
-import Cookie from "js-cookie";
+import { MyFormContext } from "../context/myForm";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,6 +38,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+  const [myForm, , useMyFormMutate] = useContext(MyFormContext);
+  const [mutateMyForm] = useMyFormMutate;
   const classes = useStyles();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
@@ -49,23 +51,30 @@ export default function SignIn() {
     LOG_IN,
     {
       variables: { email, password },
-      onCompleted: ({ login }) => {
-        localStorage.setItem("accessToken", login.accessToken);
-        localStorage.setItem("refreshToken", login.refreshToken);
-        Cookie.set("accessToken", login.accessToken);
-        history.goBack();
-        setNickname("");
-        setEmail("");
-        setPassword("");
-      },
       onError: (err) => console.error(err),
-      update: (store, { data }) => {
+      update: (
+        store,
+        {
+          data: {
+            login: { user, accessToken, refreshToken },
+          },
+        }
+      ) => {
         store.writeQuery({
           query: ME,
           data: {
-            me: data.login.user,
+            me: user,
           },
         });
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        setNickname("");
+        setEmail("");
+        setPassword("");
+        if (myForm.formJustSubmitted) {
+          mutateMyForm();
+          history.push("/myform");
+        } else history.goBack();
       },
     }
   );
@@ -74,15 +83,6 @@ export default function SignIn() {
     SIGN_UP,
     {
       variables: { nickname, email, password },
-      onCompleted: ({ signup }) => {
-        localStorage.setItem("accessToken", signup.accessToken);
-        localStorage.setItem("refreshToken", signup.refreshToken);
-
-        history.goBack();
-        setNickname("");
-        setEmail("");
-        setPassword("");
-      },
       onError: (err) => console.error(err),
       update: (store, { data }) => {
         store.writeQuery({
@@ -91,6 +91,15 @@ export default function SignIn() {
             me: data.signup.user,
           },
         });
+        localStorage.setItem("accessToken", signup.accessToken);
+        localStorage.setItem("refreshToken", signup.refreshToken);
+        setNickname("");
+        setEmail("");
+        setPassword("");
+        if (myForm.formJustSubmitted) {
+          mutateMyForm();
+          history.push("/myform");
+        } else history.goBack();
       },
     }
   );
