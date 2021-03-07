@@ -9,7 +9,7 @@ const ShareLink = ({ me }) => {
       `부하들의 인식 설문
 
 아래 설문에 응해 주시면 감사하겠습니다. 저에게 큰 도움이 됩니다.
-http://book.nam21.com/peer-review/${me.id} `
+https://book.nam21.com/peer-review/${me.id} `
     );
   };
   return (
@@ -50,7 +50,7 @@ http://book.nam21.com/peer-review/${me.id} `
         <br />
         아래 설문에 응해 주시면 감사하겠습니다. 저에게 큰 도움이 됩니다.
         <br />
-        http://book.nam21.com/peer-review/{me.id}
+        https://book.nam21.com/peer-review/{me.id}
       </Card>
       <p>
         * 다섯 명 이상이 응답한다면, 자신의 ‘지시 및 소통 능력’에 관해 스스로의

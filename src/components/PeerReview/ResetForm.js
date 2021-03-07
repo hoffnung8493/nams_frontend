@@ -2,15 +2,17 @@ import React, { useContext } from "react";
 import produce from "immer";
 import { MyFormContext } from "../../context/myForm";
 import { Button } from "@material-ui/core";
-import { useMutation } from "@apollo/client";
-import { RESET_MY_FORM } from "../../graphql";
+import { useMutation, useQuery } from "@apollo/client";
+import { RESET_MY_FORM, ME } from "../../graphql";
 
 const ResetForm = () => {
   const { setLevel, formInfos, setFormInfos } = useContext(MyFormContext);
+  const { data } = useQuery(ME);
   const [mutate] = useMutation(RESET_MY_FORM);
   const resetForm = async () => {
-    await mutate();
+    if (data?.me) await mutate();
     const newState = produce(formInfos, (draftState) => {
+      draftState.myScore = 0;
       draftState.form = draftState.form.map((v) => {
         v.selectedValue = "";
         return v;

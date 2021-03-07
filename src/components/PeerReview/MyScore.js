@@ -39,16 +39,18 @@ const MyScore = () => {
           </h2>
         </>
       )}
-      <p
-        style={{
-          textAlign: "center",
-          fontWeight: 600,
-          fontSize: "15px",
-          marginTop: 0,
-        }}
-      >
-        {data.me.peerReviewCount}명의 부하직원들이 설문에 응답했습니다.
-      </p>
+      {data?.me?.peerReviewCount && (
+        <p
+          style={{
+            textAlign: "center",
+            fontWeight: 600,
+            fontSize: "15px",
+            marginTop: 0,
+          }}
+        >
+          {data.me.peerReviewCount}명의 부하직원들이 설문에 응답했습니다.
+        </p>
+      )}
     </Container>
   );
 };
