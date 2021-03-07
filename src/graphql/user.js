@@ -14,6 +14,7 @@ export const ME = gql`
       ...USER_FRAGMENT
       myScore
       averageScore
+      peerReviewCount
     }
   }
   ${USER_FRAGMENT}
@@ -50,6 +51,8 @@ export const DO_MY_FORM = gql`
     doMyForm(formResult: $formResult) {
       id
       myScore
+      averageScore
+      peerReviewCount
     }
   }
 `;
@@ -57,5 +60,16 @@ export const DO_MY_FORM = gql`
 export const DO_PEER_FORM = gql`
   mutation($peerId: String!, $formResult: [Int!]!) {
     doPeerForm(peerId: $peerId, formResult: $formResult)
+  }
+`;
+
+export const RESET_MY_FORM = gql`
+  mutation {
+    resetMyForm {
+      id
+      myScore
+      averageScore
+      peerReviewCount
+    }
   }
 `;

@@ -48,6 +48,9 @@ const UserMenu = ({ me, client }) => {
         <Link to="/mypage/reviews" style={{ textDecoration: "none" }}>
           <MenuItem onClick={handleClose}>My 리뷰</MenuItem>
         </Link>
+        <Link to="/myform" style={{ textDecoration: "none" }}>
+          <MenuItem onClick={handleClose}>자아성찰</MenuItem>
+        </Link>
         <MenuItem
           onClick={() => {
             logout();

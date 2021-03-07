@@ -8,7 +8,7 @@ export const MyFormContext = createContext();
 export const MyFormProvider = (props) => {
   const { data } = useQuery(ME);
   const [level, setLevel] = useState(1);
-  const [myForm, setMyForm] = useState({
+  const [formInfos, setFormInfos] = useState({
     formJustSubmitted: false,
     formSubmitted: false,
     myScore: 0,
@@ -157,23 +157,57 @@ export const MyFormProvider = (props) => {
       },
     ],
   });
+  let currentFormInfos = [];
+  let header = "";
+  switch (level) {
+    case 1:
+      currentFormInfos = formInfos.form.filter((v) => v.id <= 8);
+      header = "업무방향 제시";
+      break;
+    case 2:
+      currentFormInfos = formInfos.form.filter((v) => 9 <= v.id && v.id <= 13);
+      header = "의미전달";
+      break;
+    case 3:
+      currentFormInfos = formInfos.form.filter((v) => 14 <= v.id && v.id <= 18);
+      header = "공감표현";
+      break;
+    case 4:
+      currentFormInfos = formInfos.form.filter((v) => 19 <= v.id && v.id <= 25);
+      header = "소통능력";
+      break;
+    case 5:
+      header = "자가평가 점수";
+      break;
+    default:
+      currentFormInfos = [];
+      header = "";
+  }
   const useMyFormMutate = useMutation(DO_MY_FORM, {
-    variables: { formResult: myForm.form.map((v) => v.selectedValue) },
+    variables: { formResult: formInfos.form.map((v) => v.selectedValue) },
   });
   useEffect(() => {
     if (data?.me?.myScore) {
-      const newState = produce(myForm, (draft) => {
+      const newState = produce(formInfos, (draft) => {
         draft.myScore = data.me.myScore;
         draft.formSubmitted = true;
       });
       setLevel(5);
-      setMyForm(newState);
+      setFormInfos(newState);
     }
-  }, [data, myForm]);
+  }, [data, formInfos]);
 
   return (
     <MyFormContext.Provider
-      value={[myForm, setMyForm, useMyFormMutate, level, setLevel]}
+      value={{
+        formInfos,
+        setFormInfos,
+        useMyFormMutate,
+        level,
+        setLevel,
+        currentFormInfos,
+        header,
+      }}
     >
       {props.children}
     </MyFormContext.Provider>

@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
-  const [myForm, , useMyFormMutate] = useContext(MyFormContext);
+  const { formInfos, useMyFormMutate } = useContext(MyFormContext);
   const [mutateMyForm] = useMyFormMutate;
   const classes = useStyles();
   const [isLogin, setIsLogin] = useState(true);
@@ -71,7 +71,7 @@ export default function SignIn() {
         setNickname("");
         setEmail("");
         setPassword("");
-        if (myForm.formJustSubmitted) {
+        if (formInfos.formJustSubmitted) {
           mutateMyForm();
           history.push("/myform");
         } else history.goBack();
@@ -96,7 +96,7 @@ export default function SignIn() {
         setNickname("");
         setEmail("");
         setPassword("");
-        if (myForm.formJustSubmitted) {
+        if (formInfos.formJustSubmitted) {
           mutateMyForm();
           history.push("/myform");
         } else history.goBack();

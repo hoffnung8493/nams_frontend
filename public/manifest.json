@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "사람멀미 처방전",
+  "name": "사람멀미 처방전 토론장",
   "icons": [
     {
       "src": "favicon.ico",
