@@ -25,27 +25,6 @@ import CustomCardHeader from "./CustomCardHeader";
 import produce from "immer";
 import LikeCount from "./LikeCount";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    marginBottom: 5,
-  },
-  media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
-  },
-  expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: "rotate(180deg)",
-  },
-}));
-
 const Review = ({
   review: {
     id: reviewId,
@@ -60,6 +39,31 @@ const Review = ({
     updatedAt,
   },
 }) => {
+  const useStyles = makeStyles((theme) => ({
+    root: comments.find((v) => v.user.isAdmin)
+      ? {
+          width: "100%",
+          marginBottom: 5,
+          borderRadius: 3,
+          boxShadow: "0 4px 6px 3px rgba(255, 105, 135, .3)",
+        }
+      : { width: "100%", marginBottom: 5, borderRadius: 3 },
+    media: {
+      height: 0,
+      paddingTop: "56.25%", // 16:9
+    },
+    expand: {
+      transform: "rotate(0deg)",
+      marginLeft: "auto",
+      transition: theme.transitions.create("transform", {
+        duration: theme.transitions.duration.shortest,
+      }),
+    },
+    expandOpen: {
+      transform: "rotate(180deg)",
+    },
+  }));
+
   const chapter = books
     .find((v) => v.id === bookNumber)
     .chapters.find((v) => v.id === chapterNumber);
@@ -163,7 +167,7 @@ const Review = ({
           />
 
           <IconButton
-            aria-label="share"
+            arialabel="share"
             style={{ fontSize: 20 }}
             onClick={onShowCommentsClick}
             color={showComments ? "primary" : "default"}

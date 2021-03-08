@@ -17,7 +17,8 @@ const VertMenu = ({ userId, isUpdate, deleteMutate }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  if (!data || !data.me || data.me.id !== userId) return <></>;
+  if (!data || !data.me || (data.me.id !== userId && !data.me.isAdmin))
+    return <></>;
   return (
     <div>
       <IconButton aria-label="settings" onClick={handleClick}>

@@ -20,13 +20,19 @@ import {
 import produce from "immer";
 import LikeCount from "./LikeCount";
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
-});
-
 const Comment = ({ comment, bookNumber, chapterNumber }) => {
+  const useStyles = makeStyles({
+    root: comment?.user?.isAdmin
+      ? {
+          minWidth: 275,
+          background: "linear-gradient(-135deg, #FE6B8B 30%, #FF8E53 90%)",
+          borderRadius: 3,
+          border: 0,
+          color: "white",
+          boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+        }
+      : { minWidth: 275 },
+  });
   const [isUpdate, setIsUpdate] = useState(false);
   const [content, setContent] = useState(comment.content);
   const updateHook = useMutation(COMMENT_UPDATE, {
@@ -97,7 +103,7 @@ const Comment = ({ comment, bookNumber, chapterNumber }) => {
         <LikeCount
           onLikeClick={onLikeClick}
           likeCount={comment.likeCount}
-          color={comment.likes.includes(data?.me.id) ? "secondary" : ""}
+          color={comment.likes.includes(data?.me?.id) ? "secondary" : ""}
         />
       </CardActions>
     </Card>

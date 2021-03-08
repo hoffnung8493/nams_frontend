@@ -25,7 +25,7 @@ const UserMenu = ({ me, client }) => {
 
   const logout = () => {
     localStorage.clear();
-    client.cache.reset();
+    client.clearStore().then(() => client.resetStore());
   };
 
   return (
