@@ -3,6 +3,7 @@ import { Container } from "@material-ui/core";
 import { MyFormContext } from "../../context/myForm";
 import { useQuery } from "@apollo/client";
 import { ME } from "../../graphql";
+import ChartGroup from "./ChartGroup";
 
 const MyScore = () => {
   const {
@@ -37,6 +38,7 @@ const MyScore = () => {
             부하평가{" "}
             <span style={{ fontSize: "45px" }}>{data.me.averageScore}</span>점
           </h2>
+          <ChartGroup me={data.me} />
         </>
       )}
       {data?.me?.peerReviewCount && (

@@ -16,6 +16,10 @@ export const ME = gql`
       myScore
       averageScore
       peerReviewCount
+      formResult
+      peerReviews {
+        formResult
+      }
     }
   }
   ${USER_FRAGMENT}
