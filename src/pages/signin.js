@@ -74,7 +74,7 @@ export default function SignIn() {
         if (formInfos.formJustSubmitted) {
           mutateMyForm();
           history.push("/myform");
-        } else history.goBack();
+        } else history.push("/");
       },
     }
   );
@@ -84,22 +84,29 @@ export default function SignIn() {
     {
       variables: { nickname, email, password },
       onError: (err) => console.error(err),
-      update: (store, { data }) => {
+      update: (
+        store,
+        {
+          data: {
+            signup: { user, accessToken, refreshToken },
+          },
+        }
+      ) => {
         store.writeQuery({
           query: ME,
           data: {
-            me: data.signup.user,
+            me: user,
           },
         });
-        localStorage.setItem("accessToken", signup.accessToken);
-        localStorage.setItem("refreshToken", signup.refreshToken);
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
         setNickname("");
         setEmail("");
         setPassword("");
         if (formInfos.formJustSubmitted) {
           mutateMyForm();
           history.push("/myform");
-        } else history.goBack();
+        } else history.push("/");
       },
     }
   );
@@ -160,7 +167,6 @@ export default function SignIn() {
               fullWidth
               id="firstName"
               label="닉네임"
-              autoFocus
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
             />
