@@ -166,7 +166,7 @@ export default function PersistentDrawerLeft({ children }) {
         <h3
           style={{ marginLeft: "15px", fontSize: "20px", marginBottom: "5px" }}
         >
-          {books[0].short}
+          <span style={{ fontSize: 15 }}>제1권.</span> {books[0].short}
         </h3>
         <List onClick={handleDrawerClose}>
           {books[0].chapters.map(({ short, id }) => (
@@ -176,7 +176,8 @@ export default function PersistentDrawerLeft({ children }) {
               style={{ textDecoration: "none" }}
             >
               <ListItem button>
-                <ListItemText primary={short} />
+                <span style={{ fontSize: 13 }}>제{id}장.</span>
+                <ListItemText style={{ marginLeft: 5 }} primary={short} />
               </ListItem>
             </Link>
           ))}
@@ -185,7 +186,7 @@ export default function PersistentDrawerLeft({ children }) {
         <h3
           style={{ marginLeft: "15px", fontSize: "20px", marginBottom: "5px" }}
         >
-          {books[1].short}
+          <span style={{ fontSize: 15 }}>제2권.</span> {books[1].short}
         </h3>
         <List onClick={handleDrawerClose}>
           {books[1].chapters.map(({ short, id }) => (
@@ -195,7 +196,8 @@ export default function PersistentDrawerLeft({ children }) {
               style={{ textDecoration: "none" }}
             >
               <ListItem button>
-                <ListItemText primary={short} />
+                <span style={{ fontSize: 13 }}>제{id}장.</span>
+                <ListItemText style={{ marginLeft: 5 }} primary={short} />
               </ListItem>
             </Link>
           ))}
@@ -204,7 +206,7 @@ export default function PersistentDrawerLeft({ children }) {
         <h3
           style={{ marginLeft: "15px", fontSize: "20px", marginBottom: "5px" }}
         >
-          {books[2].short}
+          <span style={{ fontSize: 15 }}>제3권.</span> {books[2].short}
         </h3>
         <List onClick={handleDrawerClose}>
           {books[2].chapters.map(({ short, id }) => (
@@ -214,7 +216,8 @@ export default function PersistentDrawerLeft({ children }) {
               style={{ textDecoration: "none" }}
             >
               <ListItem button>
-                <ListItemText primary={short} />
+                <span style={{ fontSize: 13 }}>제{id}장.</span>
+                <ListItemText style={{ marginLeft: 5 }} primary={short} />
               </ListItem>
             </Link>
           ))}
@@ -226,6 +229,7 @@ export default function PersistentDrawerLeft({ children }) {
             fontSize: "20px",
             marginBottom: "5px",
           }}
+          onClick={handleDrawerClose}
         >
           <Link style={{ textDecoration: "none" }} to="/review">
             사람멀미 처방전 전체후기

@@ -100,6 +100,12 @@ export const books = [
       },
     ],
   },
+  {
+    id: 0,
+    name: "사람멀미 처방전 시리즈",
+    short: "사람멀미 처방전",
+    chapters: [{ id: 0, short: "사람멀미 처방전", name: "사람멀미 처방전" }],
+  },
 ];
 
 export const sampleReviews = [
