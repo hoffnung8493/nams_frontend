@@ -35,7 +35,7 @@ const Review = ({
     commentCount,
     likeCount,
     likes,
-    comments,
+    comments = [],
     updatedAt,
   },
 }) => {

@@ -16,6 +16,8 @@ export const ME = gql`
       myScore
       averageScore
       peerReviewCount
+      myScoreTopPercent
+      peerScoreTopPercent
       formResult
       peerReviews {
         formResult

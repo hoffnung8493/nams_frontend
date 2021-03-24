@@ -177,7 +177,7 @@ export const MyFormProvider = (props) => {
       header = "소통능력";
       break;
     case 5:
-      header = "자가평가 점수";
+      header = "지시 및 소통 역량 자기 평가 점수";
       break;
     default:
       currentFormInfos = [];

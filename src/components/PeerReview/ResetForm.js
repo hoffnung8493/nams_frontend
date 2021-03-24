@@ -34,7 +34,7 @@ const ResetForm = () => {
       }}
       onClick={resetForm}
     >
-      자아성찰 다시하기
+      자기평가 다시하기
     </Button>
   );
 };

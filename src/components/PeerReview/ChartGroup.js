@@ -4,28 +4,28 @@ import BarChart from "./Barchart";
 const ChartGroup = ({ me }) => {
   const data = [
     {
-      title: "업무방향 제시",
+      title: "업무방향 제시 (32점 만점)",
       maxScore: 32,
       myScore: 0,
       averageScore: 0,
       onClick: () => console.log("cc"),
     },
     {
-      title: "의미전달",
+      title: "의미전달 (20점 만점)",
       maxScore: 20,
       myScore: 0,
       averageScore: 0,
       onClick: () => console.log("cc"),
     },
     {
-      title: "공감표현",
+      title: "공감표현 (20점 만점)",
       maxScore: 20,
       myScore: 0,
       averageScore: 0,
       onClick: () => console.log("cc"),
     },
     {
-      title: "소통능력",
+      title: "소통능력 (28점 만점)",
       maxScore: 28,
       myScore: 0,
       averageScore: 0,

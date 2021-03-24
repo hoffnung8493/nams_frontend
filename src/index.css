@@ -1,0 +1,14 @@
+.numberCircle {
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  padding: 2px;
+
+  background: #fff;
+  border: 1px solid black;
+  color: black;
+  text-align: center;
+
+  font: 15px;
+  font-weight: 600;
+}

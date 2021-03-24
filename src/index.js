@@ -6,6 +6,7 @@ import { ApolloProvider } from "@apollo/client";
 import { client } from "./apollo";
 import { MyFormProvider } from "./context/myForm";
 import { PeerFormProvider } from "./context/peerForm";
+import "./index.css";
 
 ReactDOM.render(
   <BrowserRouter>

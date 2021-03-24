@@ -47,7 +47,7 @@ export default function MultilineTextFields({
       </div>
       {content.length < minContentLength && (
         <span style={{ color: "grey" }}>
-          {minContentLength - content.length}자 이상 입력헤주세요
+          {minContentLength - content.length}자 이상 입력헤주새요
         </span>
       )}
       <Button

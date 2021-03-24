@@ -64,9 +64,13 @@ export const MY_REVIEWS = gql`
   query {
     myReviews {
       ...REVIEW_FRAGMENT
+      comments {
+        ...COMMENT_FRAGMENT
+      }
     }
   }
   ${REVIEW_FRAGMENT}
+  ${COMMENT_FRAGMENT}
 `;
 
 export const REVIEW_LIKE = gql`

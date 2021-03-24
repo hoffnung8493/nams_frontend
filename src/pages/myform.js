@@ -69,15 +69,19 @@ const MyForm = () => {
     <Container style={{ marginBottom: 30 }}>
       {level === 1 && (
         <>
-          <h1>자아 성찰 설문</h1>
+          <h1>지시 및 소통 역량 자기 평가</h1>
           <p style={{ marginBottom: "45px" }}>
             아래는 여러분의 지시 및 기타 소통 역량을 스스로 평가하기 위한
             설문입니다. 아래 각 문항에서 여러분이 생각하는 가장 적절한 답을
             하나만 고르기 바랍니다.
           </p>
           <p style={{ fontWeight: 700 }}>
-            □1 전혀 아니다, □2 아니다, □3 평균적, □4 그렇다, □5 매우 그렇다.
-            (높은 숫자가 긍정적인 답변임)
+            <span className="numberCircle">1</span> 전혀 아니다,{" "}
+            <span className="numberCircle">2</span> 아니다,{" "}
+            <span className="numberCircle">3</span> 평균적,{" "}
+            <span className="numberCircle">4</span> 그렇다,{" "}
+            <span className="numberCircle">5</span> 매우 그렇다. (높은
+            숫자일수록 더욱 긍정적인 답변임)
           </p>
         </>
       )}

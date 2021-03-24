@@ -49,7 +49,7 @@ const UserMenu = ({ me, client }) => {
           <MenuItem onClick={handleClose}>My 리뷰</MenuItem>
         </Link>
         <Link to="/myform" style={{ textDecoration: "none" }}>
-          <MenuItem onClick={handleClose}>자아성찰</MenuItem>
+          <MenuItem onClick={handleClose}>자기평가</MenuItem>
         </Link>
         <MenuItem
           onClick={() => {

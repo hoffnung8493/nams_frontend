@@ -6,9 +6,9 @@ const ShareLink = ({ me }) => {
   const copyUrl = () => {
     setOpen(true);
     navigator.clipboard.writeText(
-      `부하들의 인식 설문
+      `<지시 및 소통 역량에 관한 인식 조사>
 
-아래 설문에 응해 주시면 감사하겠습니다. 저에게 큰 도움이 됩니다.
+저의 '지식 및 소통 역량'을 측정하는 아래 설문을 보냅니다. 아래 URL을 눌러서 설문에 적극 응해 주시면 감사하겠습니다. 저의 역량 증진에 큰 도움이 될 것입니다.
 https://book.nam21.com/peer-review/${me.id} `
     );
   };
@@ -28,9 +28,9 @@ https://book.nam21.com/peer-review/${me.id} `
       />
       <p>
         아래 내용을 복사해서 카카오톡(부하들의 카톡방), 메시지, 이메일 등을 통해
-        부하들에게 보내십시오. .
+        부하들에게 보내십시오.
       </p>
-      <Card style={{ padding: 20 }} onClick={copyUrl}>
+      <Card style={{ padding: 15 }} onClick={copyUrl}>
         <CardHeader
           title="부하들의 인식 설문"
           action={
@@ -46,9 +46,11 @@ https://book.nam21.com/peer-review/${me.id} `
             </div>
           }
         />
-        부하들의 인식 설문
+        {"<지시 및 소통 역량에 관한 인식 조사>"}
         <br />
-        아래 설문에 응해 주시면 감사하겠습니다. 저에게 큰 도움이 됩니다.
+        저의 '지식 및 소통 역량'을 측정하는 아래 설문을 보냅니다. 아래 URL을
+        눌러서 설문에 적극 응해 주시면 감사하겠습니다. 저의 역량 증진에 큰
+        도움이 될 것입니다.
         <br />
         https://book.nam21.com/peer-review/{me.id}
       </Card>

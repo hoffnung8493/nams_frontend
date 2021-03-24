@@ -7,7 +7,9 @@ const SingleQuestion = ({ id, question, selectedValue, setSelectedValue }) => {
   };
   return (
     <div>
-      <h2>{question}</h2>
+      <h2>
+        {id}. {question}
+      </h2>
       <FormControlLabel
         style={{ margin: 3 }}
         control={
