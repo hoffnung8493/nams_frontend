@@ -4,15 +4,18 @@ import { MyFormContext } from "../../context/myForm";
 import { useQuery } from "@apollo/client";
 import { ME } from "../../graphql";
 import ChartGroup from "./ChartGroup";
+import { Redirect } from "react-router-dom";
 
 const MyScore = () => {
   const {
     formInfos: { myScore },
   } = useContext(MyFormContext);
-  const { data } = useQuery(ME);
+  const { data, loading } = useQuery(ME);
 
   const scoreColor = (score) =>
     score > 90 ? "blue" : score > 75 ? "green" : score > 60 ? "orange" : "red";
+  if (loading) return <div>Loading...</div>;
+  if (!data.me) return <Redirect to="/signin" />;
   return (
     <Container style={{ marginBottom: "45px" }}>
       {data?.me?.peerReviewCount >= 5 ? (

@@ -71,10 +71,11 @@ export default function SignIn() {
         setNickname("");
         setEmail("");
         setPassword("");
-        if (formInfos.formJustSubmitted) {
-          mutateMyForm();
-          history.push("/myform");
-        } else history.push("/");
+        history.goBack();
+        // if (formInfos.formJustSubmitted) {
+        //   mutateMyForm();
+        //   history.push("/myform");
+        // } else history.push("/");
       },
     }
   );
@@ -186,12 +187,18 @@ export default function SignIn() {
           </Button>
           {(loginLoading || signupLoading) && <p>Loading...</p>}
           <p>{(loginError || signupError) && `${loginError || signupError}`}</p>
-          <p
-            style={{ textDecoration: "underline" }}
-            onClick={() => setIsLogin(!isLogin)}
-          >
-            {isLogin ? "회원 가입하기" : "로그인하기"}
-          </p>
+
+          <div className="text-base">
+            {isLogin ? "계정이 없으신가요?" : "계정이 있으신가요?"}
+            <button
+              className="ml-2 underline text-blue-600"
+              type="button"
+              onClick={() => setIsLogin(!isLogin)}
+            >
+              {isLogin ? "회원가입하기" : "로그인하기"}
+            </button>
+          </div>
+
           {/* <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">

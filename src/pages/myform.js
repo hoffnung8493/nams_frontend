@@ -69,28 +69,44 @@ const MyForm = () => {
     <Container style={{ marginBottom: 30 }}>
       {level === 1 && (
         <>
-          <h1>지시 및 소통 역량 자기 평가</h1>
-          <p style={{ marginBottom: "45px" }}>
+          <h1 className="text-2xl font-bold mb-2">
+            지시 및 소통 역량 자기 평가
+          </h1>
+          <p>
             아래는 여러분의 지시 및 기타 소통 역량을 스스로 평가하기 위한
             설문입니다. 아래 각 문항에서 여러분이 생각하는 가장 적절한 답을
             하나만 고르기 바랍니다.
           </p>
-          <p style={{ fontWeight: 700 }}>
-            <span className="numberCircle">1</span> 전혀 아니다,{" "}
-            <span className="numberCircle">2</span> 아니다,{" "}
-            <span className="numberCircle">3</span> 평균적,{" "}
-            <span className="numberCircle">4</span> 그렇다,{" "}
-            <span className="numberCircle">5</span> 매우 그렇다. (높은
-            숫자일수록 더욱 긍정적인 답변임)
-          </p>
+          <div className="text-gray-500 mt-3 p-3 text-xs">
+            <div className="mb-2">
+              <span className="px-1 border-2 border-gray-500 rounded-full mr-1">
+                1
+              </span>
+              전혀 아니다
+              <span className="px-1 border-2 border-gray-500 rounded-full mr-1 ml-2">
+                2
+              </span>
+              아니다
+              <span className="px-1 border-2 border-gray-500 rounded-full mr-1 ml-2">
+                3
+              </span>
+              평균적
+            </div>
+            <div className="mb-2">
+              <span className="px-1 border-2 border-gray-500 rounded-full mr-1">
+                4
+              </span>
+              그렇다
+              <span className="px-1 border-2 border-gray-500 rounded-full mr-1 ml-2">
+                5
+              </span>
+            </div>
+            <div>매우 그렇다. (높은 숫자일수록 더욱 긍정적인 답변임)</div>
+          </div>
         </>
       )}
 
-      <h2
-        style={{ textAlign: "center", marginBottom: "45px", fontSize: "25px" }}
-      >
-        {header}
-      </h2>
+      <h2 className="text-2xl font-bold mb-2">{header}</h2>
       {level < 5 &&
         currentFormInfos.map((v) => (
           <SingleQuestion

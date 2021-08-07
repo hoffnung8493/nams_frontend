@@ -77,8 +77,10 @@ const PeerReviewPage = ({
       />
       {level === 1 && (
         <>
-          <h1>상사의 '지식 및 소통 능력'에 관한 인식 조사</h1>
-          <p style={{ marginBottom: "45px" }}>
+          <h1 className="text-2xl font-bold mb-2">
+            상사의 '지식 및 소통 능력'에 관한 인식 조사
+          </h1>
+          <p>
             여러분의 진솔한 응답은 이 설문을 부탁한 사람의 ‘지시 및 소통 역량’
             향상에 큰 도움이 될 것입니다. <br />
             (1) 익명 설문 조사입니다.
@@ -96,22 +98,36 @@ const PeerReviewPage = ({
             <br />
             (7) 아래에서 ‘상사’란 이 설문을 부탁한 사람입니다.
           </p>
-          <p style={{ fontWeight: 700 }}>
-            <span className="numberCircle">1</span> 전혀 아니다,{" "}
-            <span className="numberCircle">2</span> 아니다,{" "}
-            <span className="numberCircle">3</span> 평균적,{" "}
-            <span className="numberCircle">4</span> 그렇다,{" "}
-            <span className="numberCircle">5</span> 매우 그렇다. (높은
-            숫자일수록 더욱 긍정적인 답변임)
-          </p>
+          <div className="text-gray-500 mt-3 p-3 text-xs">
+            <div className="mb-2">
+              <span className="px-1 border-2 border-gray-500 rounded-full mr-1">
+                1
+              </span>
+              전혀 아니다
+              <span className="px-1 border-2 border-gray-500 rounded-full mr-1 ml-2">
+                2
+              </span>
+              아니다
+              <span className="px-1 border-2 border-gray-500 rounded-full mr-1 ml-2">
+                3
+              </span>
+              평균적
+            </div>
+            <div className="mb-2">
+              <span className="px-1 border-2 border-gray-500 rounded-full mr-1">
+                4
+              </span>
+              그렇다
+              <span className="px-1 border-2 border-gray-500 rounded-full mr-1 ml-2">
+                5
+              </span>
+            </div>
+            <div>매우 그렇다. (높은 숫자일수록 더욱 긍정적인 답변임)</div>
+          </div>
         </>
       )}
+      <h2 className="text-2xl font-bold mb-2 mt-5">{header}</h2>
 
-      <h2
-        style={{ textAlign: "center", marginBottom: "45px", fontSize: "25px" }}
-      >
-        {header}
-      </h2>
       {level < 5 &&
         currentFormInfos.map((v) => (
           <SingleQuestion

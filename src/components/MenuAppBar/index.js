@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -22,6 +22,7 @@ import { client } from "../../apollo";
 import { ME } from "../../graphql";
 import HomeIcon from "@material-ui/icons/Home";
 import UserMenu from "./UserMenu";
+import { AppMenuContext } from "../../context/AppMenu";
 
 const drawerWidth = 240;
 
@@ -97,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PersistentDrawerLeft({ children }) {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useContext(AppMenuContext);
   const { data } = useQuery(ME, {
     onError: (err) => console.error({ err }),
   });

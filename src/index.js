@@ -6,6 +6,7 @@ import { ApolloProvider } from "@apollo/client";
 import { client } from "./apollo";
 import { MyFormProvider } from "./context/myForm";
 import { PeerFormProvider } from "./context/peerForm";
+import { AppMenuProvider } from "./context/AppMenu";
 import "./index.css";
 
 ReactDOM.render(
@@ -13,7 +14,9 @@ ReactDOM.render(
     <ApolloProvider client={client}>
       <PeerFormProvider>
         <MyFormProvider>
-          <App />
+          <AppMenuProvider>
+            <App />
+          </AppMenuProvider>
         </MyFormProvider>
       </PeerFormProvider>
     </ApolloProvider>

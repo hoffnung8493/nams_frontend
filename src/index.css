@@ -1,8 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .numberCircle {
   border-radius: 50%;
   width: 15px;
   height: 15px;
   padding: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
 
   background: #fff;
   border: 1px solid black;
